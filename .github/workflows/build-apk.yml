@@ -1,0 +1,28 @@
+
+name: Build NEXORA Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download project ZIP
+        run: |
+          unzip deploy.zip -d project
+          ls -la project
+
+      - name: Prepare project
+        run: |
+          npm install -g @bubblewrap/cli
+          echo "Project files extracted successfully"
