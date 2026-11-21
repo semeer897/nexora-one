@@ -12,17 +12,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Download project ZIP
+      - name: Check project ZIP
         run: |
+          unzip -t deploy.zip
+          mkdir project
           unzip deploy.zip -d project
-          ls -la project
+          echo "Project files:"
+          find project -maxdepth 3 -type f
 
-      - name: Prepare project
+      - name: Verify PWA files
         run: |
-          npm install -g @bubblewrap/cli
-          echo "Project files extracted successfully"
+          find project -name "manifest.webmanifest"
+          find project -name "index.html"
+          find project -name "sw.js"
